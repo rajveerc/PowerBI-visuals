@@ -364,6 +364,17 @@
                 }
             }
         },
+        "patternFill": {
+            "displayName": "Pattern fill toggle",
+            "description": "Pattern fill toggle for negative values",
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
         "summaryLabels": {
             "displayName": "Summary labels",
             "description": "Summary label options",

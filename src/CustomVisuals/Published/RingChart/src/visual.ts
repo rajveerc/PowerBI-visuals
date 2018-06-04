@@ -109,10 +109,13 @@ module powerbi.extensibility.visual {
     interface IDonutChartViewModel {
         legendData: LegendData;
         dataPoints: IDonutChartDataPoint[];
+        dataPoints2: IDonutChartDataPoint[];
         dataMax: number;
         settings: IDonutChartSettings;
         primaryMeasureSum: number;
+        primaryMeasureSum2: number;
         secondaryMeasureSum: number;
+        secondaryMeasureSum2: number;
         primaryKPISum: number;
         secondaryKPISum: number;
         isLegendAvailable: boolean;
@@ -201,6 +204,9 @@ module powerbi.extensibility.visual {
         show: boolean;
     }
 
+    export interface IPatternFill {
+        show: boolean;
+    }
     export interface INodataText {
         textMessage: string;
     }
@@ -209,6 +215,9 @@ module powerbi.extensibility.visual {
         animation: {
             show: DataViewObjectPropertyIdentifier;
         };
+        patternToggle: {
+            show: DataViewObjectPropertyIdentifier;
+        }
         donutTitle: {
             backgroundColor: DataViewObjectPropertyIdentifier;
             fill1: DataViewObjectPropertyIdentifier;
@@ -270,6 +279,9 @@ module powerbi.extensibility.visual {
         animation: {
             show: <DataViewObjectPropertyIdentifier>{ objectName: 'animation', propertyName: 'show' }
         },
+        patternToggle: {
+            show: <DataViewObjectPropertyIdentifier>{ objectName: 'patternFill', propertyName: 'show' }
+        },
         donutTitle: {
             backgroundColor: <DataViewObjectPropertyIdentifier>{ objectName: 'GMODonutTitle', propertyName: 'backgroundColor' },
             fill1: <DataViewObjectPropertyIdentifier>{ objectName: 'GMODonutTitle', propertyName: 'fill1' },
@@ -287,14 +299,14 @@ module powerbi.extensibility.visual {
             upArrow: <DataViewObjectPropertyIdentifier>{ objectName: 'Indicators', propertyName: 'upArrow' }
         },
         labels:
-        {
-            color: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'color' },
-            fontSize: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'fontSize' },
-            labelDisplayUnits: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'labelDisplayUnits' },
-            labelPrecision: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'labelPrecision' },
-            labelStyle: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'labelStyle' },
-            show: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'show' }
-        },
+            {
+                color: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'color' },
+                fontSize: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'fontSize' },
+                labelDisplayUnits: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'labelDisplayUnits' },
+                labelPrecision: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'labelPrecision' },
+                labelStyle: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'labelStyle' },
+                show: <DataViewObjectPropertyIdentifier>{ objectName: 'labels', propertyName: 'show' }
+            },
         legendSettings: {
             decimalPlaces: <DataViewObjectPropertyIdentifier>{ objectName: 'legend', propertyName: 'labelPrecision' },
             displayUnits: <DataViewObjectPropertyIdentifier>{ objectName: 'legend', propertyName: 'labelDisplayUnits' },
@@ -306,15 +318,15 @@ module powerbi.extensibility.visual {
             textMessage: <DataViewObjectPropertyIdentifier>{ objectName: 'nodatatext', propertyName: 'textMessage' }
         },
         secondarySummaryLabels:
-        {
-            color: <DataViewObjectPropertyIdentifier>{ objectName: 'secondarySummaryLabels', propertyName: 'color' },
-            fontSize: <DataViewObjectPropertyIdentifier>{ objectName: 'secondarySummaryLabels', propertyName: 'fontSize' },
-            labelDisplayUnits: <DataViewObjectPropertyIdentifier>{
-                objectName: 'secondarySummaryLabels',
-                propertyName: 'labelDisplayUnits'
+            {
+                color: <DataViewObjectPropertyIdentifier>{ objectName: 'secondarySummaryLabels', propertyName: 'color' },
+                fontSize: <DataViewObjectPropertyIdentifier>{ objectName: 'secondarySummaryLabels', propertyName: 'fontSize' },
+                labelDisplayUnits: <DataViewObjectPropertyIdentifier>{
+                    objectName: 'secondarySummaryLabels',
+                    propertyName: 'labelDisplayUnits'
+                },
+                labelPrecision: <DataViewObjectPropertyIdentifier>{ objectName: 'secondarySummaryLabels', propertyName: 'labelPrecision' }
             },
-            labelPrecision: <DataViewObjectPropertyIdentifier>{ objectName: 'secondarySummaryLabels', propertyName: 'labelPrecision' }
-        },
         smIndicator: {
             downArrow: <DataViewObjectPropertyIdentifier>{ objectName: 'SMIndicator', propertyName: 'downArrow' },
             secondaryMeasure: <DataViewObjectPropertyIdentifier>{ objectName: 'SMIndicator', propertyName: 'SecondaryMeasure' },
@@ -324,14 +336,14 @@ module powerbi.extensibility.visual {
             upArrow: <DataViewObjectPropertyIdentifier>{ objectName: 'SMIndicator', propertyName: 'upArrow' }
         },
         summaryLabels:
-        {
-            color: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'color' },
-            fontSize: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'fontSize' },
-            labelDisplayUnits: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'labelDisplayUnits' },
-            labelPrecision: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'labelPrecision' },
-            show: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'show' },
-            text: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'primaryMeasureSummaryText' }
-        }
+            {
+                color: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'color' },
+                fontSize: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'fontSize' },
+                labelDisplayUnits: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'labelDisplayUnits' },
+                labelPrecision: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'labelPrecision' },
+                show: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'show' },
+                text: <DataViewObjectPropertyIdentifier>{ objectName: 'summaryLabels', propertyName: 'primaryMeasureSummaryText' }
+            }
     };
 
     /* tslint:disable:no-any */
@@ -347,6 +359,7 @@ module powerbi.extensibility.visual {
         private donutContainer: d3.Selection<SVGElement>;
         private xAxis: d3.Selection<SVGElement>;
         private donutDataPoints: IDonutChartDataPoint[];
+        private donutDataPoints2: IDonutChartDataPoint[];
         private donutChartSettings: IDonutChartSettings;
         private tooltipServiceWrapper: ITooltipServiceWrapper;
         private locale: string;
@@ -406,13 +419,16 @@ module powerbi.extensibility.visual {
             viewModel = {
                 dataMax: 0,
                 dataPoints: [],
+                dataPoints2: [],
                 isLegendAvailable: false,
                 isPrimaryMeasureAvailable: false,
                 legendData: null,
                 primaryKPISum: null,
                 primaryMeasureSum: null,
+                primaryMeasureSum2: null,
                 secondaryKPISum: null,
                 secondaryMeasureSum: null,
+                secondaryMeasureSum2: null,
                 settings: <IDonutChartSettings>{}
             };
 
@@ -433,12 +449,17 @@ module powerbi.extensibility.visual {
 
             let donutChartDataPoints: IDonutChartDataPoint[];
             donutChartDataPoints = [];
+            let donutChartDataPoints2: IDonutChartDataPoint[];
+            donutChartDataPoints2 = [];
             let dataMax: number;
             let primaryMeasureSum: number = 0;
             let secondaryMeasureSum: number = 0;
-
+            let primaryMeasureSum2: number = 0;
+            let secondaryMeasureSum2: number = 0;
             let primarykpiSum: number = 0;
             let secondarykpiSum: number = 0;
+            // let primarykpiSum2: number = 0;
+            // let secondarykpiSum2: number = 0;
 
             let colorPalette: IColorPalette;
             colorPalette = host.colorPalette;
@@ -490,6 +511,19 @@ module powerbi.extensibility.visual {
                     tooltipData: [],
                     value: ''
                 };
+                let donutDataPoint2: IDonutChartDataPoint;
+                donutDataPoint2 = {
+                    category: '',
+                    color: '',
+                    primaryKPIValue: '',
+                    primaryName: '',
+                    secondaryKPIValue: '',
+                    secondaryName: '',
+                    secondaryValue: '',
+                    selectionId: null,
+                    tooltipData: [],
+                    value: ''
+                };
                 for (let cat1: number = 0; cat1 < dataViews[0].categorical.categories.length; cat1++) {
                     let dataView: DataView;
                     dataView = dataViews[0];
@@ -510,28 +544,40 @@ module powerbi.extensibility.visual {
                 for (let k: number = 0; k < dataViews[0].categorical.values.length; k++) {
                     let dataView: DataView;
                     dataView = dataViews[0];
-                    let dataVal: PrimitiveValue = dataView.categorical.values[k].values[i];
-                    dataVal = dataVal < 0 ? 0 : dataVal;
+                    let dataVal: PrimitiveValue;
+                    dataVal = dataView.categorical.values[k].values[i];
+                    let dataVal2: PrimitiveValue;
+                    dataVal2 = dataView.categorical.values[k].values[i];
                     let colName: string;
                     colName = dataView.categorical.values[k].source.displayName ?
                         dataView.categorical.values[k].source.displayName.toString() : '';
                     if (dataView.categorical.values[k].source.roles.hasOwnProperty('Y')) {
                         donutDataPoint.primaryName = colName;
+                        donutDataPoint2.primaryName = colName;
                         donutDataPoint.value = dataVal;
-                        primaryMeasureSum += parseFloat(dataVal ? dataVal.toString() : '0');
+                        primaryMeasureSum += parseFloat(dataVal2 ? dataVal2.toString() : '0');
+                        donutDataPoint2.value = dataVal2;
+                        dataVal2 = dataVal2 < 0 ? Math.abs(<number>dataVal2) : dataVal2;
+                        primaryMeasureSum2 += parseFloat(dataVal2 ? dataVal2.toString() : '0');
                     }
                     if (dataView.categorical.values[k].source.roles.hasOwnProperty('SecondaryMeasure')) {
                         donutDataPoint.secondaryName = colName;
+                        donutDataPoint2.secondaryName = colName;
                         donutDataPoint.secondaryValue = dataVal;
-                        secondaryMeasureSum += parseFloat(dataVal ? dataVal.toString() : '0');
+                        donutDataPoint2.secondaryValue = dataVal2;
+                        secondaryMeasureSum += parseFloat(dataVal2 ? dataVal2.toString() : '0');
+                        dataVal2 = dataVal2 < 0 ? Math.abs(<number>dataVal2) : dataVal2;
+                        secondaryMeasureSum2 += parseFloat(dataVal2 ? dataVal2.toString() : '0');
                         this.isSMExists = true;
                     }
                     if (dataView.categorical.values[k].source.roles.hasOwnProperty('PrimaryKPI')) {
                         donutDataPoint.primaryKPIValue = dataVal;
+                        donutDataPoint2.primaryKPIValue = dataVal;
                         primarykpiSum += parseFloat(dataVal ? dataVal.toString() : '0');
                     }
                     if (dataView.categorical.values[k].source.roles.hasOwnProperty('SecondaryKPI')) {
                         donutDataPoint.secondaryKPIValue = dataVal;
+                        donutDataPoint2.secondaryKPIValue = dataVal;
                         secondarykpiSum += parseFloat(dataVal ? dataVal.toString() : '0');
                     }
                     let tooltipDataPoint: ITooltipDataPoints;
@@ -542,26 +588,35 @@ module powerbi.extensibility.visual {
                         value: dataVal ? dataVal.toString() : '(Blank)'
                     };
                     donutDataPoint.tooltipData.push(tooltipDataPoint);
+                    donutDataPoint2.tooltipData.push(tooltipDataPoint);
                 }
                 donutDataPoint.color = getCategoricalObjectValue<Fill>(category, i, 'dataPoint', 'fill', defaultColor).solid.color;
                 donutDataPoint.selectionId = host.createSelectionIdBuilder()
                     .withCategory(category, i)
                     .createSelectionId();
+                donutDataPoint2.color = getCategoricalObjectValue<Fill>(category, i, 'dataPoint', 'fill', defaultColor).solid.color;
+                donutDataPoint2.selectionId = host.createSelectionIdBuilder()
+                    .withCategory(category, i)
+                    .createSelectionId();
 
                 donutChartDataPoints.push(donutDataPoint);
+                donutChartDataPoints2.push(donutDataPoint2);
             }
             dataMax = <number>dataValue.maxLocal;
 
             return {
                 dataMax: dataMax,
                 dataPoints: donutChartDataPoints,
+                dataPoints2: donutChartDataPoints2,
                 isLegendAvailable: isLegendAvailable,
                 isPrimaryMeasureAvailable: isPrimaryMeasureAvailable,
                 legendData: this.getLegendData(dataViews[0], donutChartDataPoints, host),
                 primaryKPISum: primarykpiSum,
                 primaryMeasureSum: primaryMeasureSum,
+                primaryMeasureSum2: primaryMeasureSum2,
                 secondaryKPISum: secondarykpiSum,
                 secondaryMeasureSum: secondaryMeasureSum,
+                secondaryMeasureSum2: secondaryMeasureSum2,
                 settings: donutChartSettings
             };
         }
@@ -629,6 +684,7 @@ module powerbi.extensibility.visual {
             this.donutChartSettings = viewModel.settings;
 
             this.donutDataPoints = viewModel.dataPoints;
+            this.donutDataPoints2 = viewModel.dataPoints2;
             let lablesettings: IDetailLables;
             lablesettings = this.getDetailLable(this.dataViews);
             this.svg.selectAll('*').remove();
@@ -778,7 +834,7 @@ module powerbi.extensibility.visual {
             pie = d3.layout.pie()
                 .sort(null)
                 // tslint:disable-next-line:no-any
-                .value(function (d: any): any { return d.value; });
+                .value(function (d: any): any { return Math.abs(d.value); });
 
             let svg: d3.Selection<SVGElement>;
             svg = d3.select('.ring_donutChart').append('svg')
@@ -790,15 +846,46 @@ module powerbi.extensibility.visual {
             // tslint:disable-next-line:no-any
             let g: any;
             g = svg.selectAll('.ring_arc')
-                .data(pie(viewModel.dataPoints))
+                .data(pie(viewModel.dataPoints2))
                 .enter().append('g')
-                .attr('class', 'ring_arc');
-
-            g.append('path')
+                .attr('class', 'ring_arc')
+                // tslint:disable-next-line:no-any
+                .attr('id', function (d: any, iterator: number): string {
+                    return `path${iterator}`;
+                });
+            let patternToggle: IPatternFill;
+            patternToggle = this.getPattern(this.dataViews);
+            // tslint:disable-next-line:no-any
+            svg.selectAll('g').append('path')
                 .attr('d', arc)
                 // tslint:disable-next-line:no-any
-                .style('fill', function (d: any): string { return d.data.color; });
+                .style('fill', function (d: any, iterator: number): string {
+                    if (patternToggle.show && viewModel.dataPoints[iterator].value < 0) {
+                        // tslint:disable-next-line:no-any
+                        let patternFill: any;
+                        patternFill = svg.selectAll(`#path${iterator}`)
+                            .append('pattern')
+                            .attr('id', `circle${iterator}`)
+                            .attr({
+                                width: 10,
+                                height: 5,
+                                patternUnits: 'userSpaceOnUse'
+                            })
+                            .style('stroke', d.data.color)
+                            .style('stroke-width', 5);
+                        patternFill.append('line').attr({
+                            x1: 0,
+                            y1: 0,
+                            x2: 10,
+                            y2: 0,
+                            fill: '#FFFFFF'
+                        });
 
+                        return `url(#circle${iterator})`;
+                    }
+
+                    return d.data.color;
+                });
             // tslint:disable-next-line:no-any
             let outerArc: any;
             outerArc = d3.svg.arc()
@@ -1036,10 +1123,10 @@ module powerbi.extensibility.visual {
                         return finalText;
                     })
                     .style(
-                    // tslint:disable-next-line:no-any
-                    'text-anchor', function (d: any): string {
-                        return (midAngle(d)) < Math.PI ? 'start' : 'end';
-                    })
+                        // tslint:disable-next-line:no-any
+                        'text-anchor', function (d: any): string {
+                            return (midAngle(d)) < Math.PI ? 'start' : 'end';
+                        })
                     .style('fill', labelcolor)
                     .style('font-size', labeltextsize)
                     .style('font-family', this.defaultFontFamily)
@@ -1247,10 +1334,10 @@ module powerbi.extensibility.visual {
                                 return finalText;
                             })
                             .style(
-                            // tslint:disable-next-line:no-any
-                            'text-anchor', function (d: any): string {
-                                return (midAngle(d)) < Math.PI ? 'start' : 'end';
-                            })
+                                // tslint:disable-next-line:no-any
+                                'text-anchor', function (d: any): string {
+                                    return (midAngle(d)) < Math.PI ? 'start' : 'end';
+                                })
                             .style('fill', labelcolor2)
                             .style('font-size', labeltextsize2)
                             .style('font-family', this.defaultFontFamily)
@@ -1393,13 +1480,13 @@ module powerbi.extensibility.visual {
 
             this.drawSummaryDiv(radius, options, viewModel, legendHeight, legendWidth, summaryLabelSettings, this.dataViews);
             let arcs: d3.selection.Update<IDonutChartDataPoint>;
-            arcs = this.svg.selectAll('.ring_arc').data(viewModel.dataPoints);
+            arcs = this.svg.selectAll('.ring_arc').data(viewModel.dataPoints2);
 
             this.tooltipServiceWrapper
                 .addTooltip(
-                this.svg.selectAll('.ring_arc'),
-                (tooltipEvent: TooltipEventArgs<number>) => this.getTooltipData(tooltipEvent.data),
-                (tooltipEvent: TooltipEventArgs<number>) => null
+                    this.svg.selectAll('.ring_arc'),
+                    (tooltipEvent: TooltipEventArgs<number>) => this.getTooltipData(tooltipEvent.data),
+                    (tooltipEvent: TooltipEventArgs<number>) => null
                 );
 
             let selectionManager: ISelectionManager;
@@ -1422,7 +1509,7 @@ module powerbi.extensibility.visual {
                             return 1;
                         }
                     }
-                    // tslint:disable-next-line:no-any
+                    // tslint:disable-next-line:no-shadowed-variable no-any
                     let legend: any;
                     legend = THIS.rootElement.selectAll('.ring_legend .legendItem');
                     // tslint:disable-next-line:no-any
@@ -1894,6 +1981,8 @@ module powerbi.extensibility.visual {
             detaillabelprop = this.getDetailLable(this.dataViews);
             let summaryLabels: ISummaryLabels;
             summaryLabels = this.getSummaryLabels(this.dataViews);
+            let patternToggle: IPatternFill;
+            patternToggle = this.getPattern(this.dataViews);
             let secondarySummaryLabels: ISecondarySummaryLabels;
             secondarySummaryLabels = this.getSecondarySummaryLabels(this.dataViews);
             let pmIndicator: IPrimaryIndicator;
@@ -1918,16 +2007,16 @@ module powerbi.extensibility.visual {
                             position: LegendPosition[this.legend.getOrientation()],
                             showTitle: powerbi.extensibility.utils.dataview.DataViewObject
                                 .getValue(
-                                this.legendObjectProperties, powerbi.extensibility.utils.chart.legend.legendProps.showTitle, true
+                                    this.legendObjectProperties, powerbi.extensibility.utils.chart.legend.legendProps.showTitle, true
                                 ),
                             titleText: legendConfigs.legendName,
                             labelColor: powerbi.extensibility.utils.dataview.DataViewObject
                                 .getValue(
-                                this.legendObjectProperties, powerbi.extensibility.utils.chart.legend.legendProps.labelColor, null
+                                    this.legendObjectProperties, powerbi.extensibility.utils.chart.legend.legendProps.labelColor, null
                                 ),
                             fontSize: powerbi.extensibility.utils.dataview.DataViewObject
                                 .getValue(
-                                this.legendObjectProperties, powerbi.extensibility.utils.chart.legend.legendProps.fontSize, 8
+                                    this.legendObjectProperties, powerbi.extensibility.utils.chart.legend.legendProps.fontSize, 8
                                 ),
                             detailedLegend: legendConfigs.primaryMeasure,
                             labelDisplayUnits: legendConfigs.displayUnits,
@@ -1963,6 +2052,15 @@ module powerbi.extensibility.visual {
                             labelStyle: detaillabelprop.labelStyle
                         },
                         selector: null
+                    });
+                    break;
+                case 'patternFill':
+                    objectEnumeration.push({
+                        objectName: objectName,
+                        selector: null,
+                        properties: {
+                            show: patternToggle.show
+                        }
                     });
                     break;
                 case 'summaryLabels':
@@ -2706,6 +2804,18 @@ module powerbi.extensibility.visual {
             return animationSettings;
         }
 
+        private getPattern(dataView: DataView): IPatternFill {
+            let objects: DataViewObjects = null;
+            let patternSettings: IPatternFill;
+            patternSettings = this.getDefaultAnimation();
+            if (!dataView.metadata || !dataView.metadata.objects) {
+                return patternSettings;
+            }
+            objects = dataView.metadata.objects;
+            patternSettings.show = DataViewObjects.getValue(objects, chartProperties.patternToggle.show, patternSettings.show);
+
+            return patternSettings;
+        }
         private getDefaultNoDataText(): INodataText {
 
             return {
