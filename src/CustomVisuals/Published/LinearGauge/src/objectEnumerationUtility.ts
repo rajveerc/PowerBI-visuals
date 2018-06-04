@@ -14,11 +14,14 @@ module powerbi.extensibility.visual {
      * @param {string} propertyName     - Name of desired property.
      * @param {T} defaultValue          - Default value of desired property.
      */
-    export function getValue<T>(objects: DataViewObjects, objectName: string, propertyName: string, defaultValue: T, params?: getValueParams<T>): T {
+    export function getValue<T>(objects: DataViewObjects, objectName: string, propertyName: string, defaultValue: T,
+                                params?: getValueParams<T>): T {
         if (objects) {
-            let object = objects[objectName];
+            let object: DataViewObject;
+            object = objects[objectName];
             if (object) {
-                let property: T = <T>object[propertyName];
+                let property: T;
+                property = <T>object[propertyName];
                 if (property !== undefined) {
                     if (params) {
                         if (params.maxValue && property > params.maxValue) {
@@ -28,10 +31,12 @@ module powerbi.extensibility.visual {
                             return params.minValue;
                         }
                     }
+
                     return property;
                 }
             }
         }
+
         return defaultValue;
     }
 
@@ -45,7 +50,8 @@ module powerbi.extensibility.visual {
      * @param {string} propertyName             - Name of desired property.
      * @param {T} defaultValue                  - Default value of desired property.
      */
-    export function getCategoricalObjectValue<T>(category: DataViewCategoryColumn, index: number, objectName: string, propertyName: string, defaultValue: T): T {
+    export function getCategoricalObjectValue<T>(category: DataViewCategoryColumn, index: number, objectName: string,
+                                                 propertyName: string, defaultValue: T): T {
         let categoryObjects = category.objects;
 
         if (categoryObjects) {
@@ -61,6 +67,7 @@ module powerbi.extensibility.visual {
                 }
             }
         }
+
         return defaultValue;
     }
 }
